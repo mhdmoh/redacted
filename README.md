@@ -3,7 +3,7 @@ First, add `redacted` as a dependency in your pubspec.yaml file.
 
 ```yaml
 dependencies:
-  redacted: ^0.0.3
+  redacted: ^0.0.6
 ```
 
 Don't forget to `flutter pub get`.
