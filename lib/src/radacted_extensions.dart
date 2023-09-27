@@ -228,14 +228,65 @@ extension RedactedAspectRatio on AspectRatio {
   }
 }
 
+extension RedactedInkWll on InkWell {
+  InkWell redact(BuildContext context, {RedactedConfiguration? configuration}) {
+    return InkWell(
+      autofocus: autofocus,
+      borderRadius: borderRadius,
+      canRequestFocus: canRequestFocus,
+      customBorder: customBorder,
+      enableFeedback: enableFeedback,
+      excludeFromSemantics: excludeFromSemantics,
+      focusColor: focusColor,
+      focusNode: focusNode,
+      highlightColor: highlightColor,
+      hoverColor: hoverColor,
+      key: key,
+      mouseCursor: mouseCursor,
+      onDoubleTap: onDoubleTap,
+      onFocusChange: onFocusChange,
+      onHighlightChanged: onHighlightChanged,
+      onHover: onHover,
+      onLongPress: onLongPress,
+      onSecondaryTap: onSecondaryTap,
+      onSecondaryTapCancel: onSecondaryTapCancel,
+      onSecondaryTapDown: onSecondaryTapDown,
+      onSecondaryTapUp: onSecondaryTapUp,
+      onTap: onTap,
+      onTapCancel: onTapCancel,
+      onTapDown: onTapDown,
+      onTapUp: onTapUp,
+      overlayColor: overlayColor,
+      radius: radius,
+      splashColor: splashColor,
+      splashFactory: splashFactory,
+      statesController: statesController,
+      child: child?.redacted(
+          context: context, redact: true, configuration: configuration),
+    );
+  }
+}
+
 extension RedactedImageContainer on Container {
   Widget redact(BuildContext context, {RedactedConfiguration? configuration}) {
     if (child == null) return this;
-    if (child.runtimeType != Image) {
-      return child!.redacted(
-        context: context,
-        redact: true,
-        configuration: configuration,
+    if (child != null && child.runtimeType != Image) {
+      return Container(
+        decoration: decoration,
+        clipBehavior: clipBehavior,
+        margin: margin,
+        alignment: alignment,
+        constraints: constraints,
+        foregroundDecoration: foregroundDecoration,
+        key: key,
+        padding: padding,
+        transform: transform,
+        transformAlignment: transformAlignment,
+        child: child!.redacted(
+          context: context,
+          redact: true,
+          configuration: configuration,
+        ),
       );
     }
     return _RedactedFillWidget(

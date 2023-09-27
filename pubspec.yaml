@@ -1,6 +1,6 @@
 name: redacted
 description: Generate a loading widget using only an extension.
-version: 0.0.3
+version: 0.0.5
 homepage: https://github.com/mhdmoh/redacted
 
 environment:

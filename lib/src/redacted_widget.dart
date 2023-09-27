@@ -41,16 +41,18 @@ extension Redacted on Widget {
       return (this as Expanded).redact(context, configuration: configuration);
     }
     if (this is AspectRatio) {
-      return (this as AspectRatio).redact(context, configuration: configuration);
+      return (this as AspectRatio)
+          .redact(context, configuration: configuration);
     }
     if (this is Container) {
       return (this as Container).redact(context, configuration: configuration);
     }
-    if (this is StatelessWidget) {
-      return (this as StatelessWidget).build(context).redacted(context: context, redact: redact, configuration: configuration);
+    if (this is InkWell) {
+      return (this as InkWell).redact(context, configuration: configuration);
     }
-    if (this is StatefulWidget) {
-      return (this as StatefulWidget).createState().build(context).redacted(context: context, redact: redact, configuration: configuration);
+    if (this is StatelessWidget) {
+      return (this as StatelessWidget).build(context).redacted(
+          context: context, redact: redact, configuration: configuration);
     }
     return this;
   }
