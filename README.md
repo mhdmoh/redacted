@@ -1,6 +1,6 @@
 A package that automatically generate a loading widget from your own widget.
 <p style="text-align: center;">
-<img src="screenshots/redacted.gif?raw=true"/>
+<img src="https://github.com/mhdmoh/redacted/blob/main/screenshots/redacted.gif?raw=true"/>
 </p>
 # Usage
 First, add `redacted` as a dependency in your pubspec.yaml file.
@@ -21,11 +21,11 @@ ShoeWidget()
 ## Styling
 There is three styles you can choose from:
 `ShimmerStyle`, `GlowStyle` and `StaticColorStyle`
-<p style="text-align: center;">
-<img src="screenshots/shimmer.gif?raw=true"style="width: 20%;"/>
-<img src="screenshots/glow.gif?raw=true"style="width: 20%;"/>
-<img src="screenshots/static.gif?raw=true"style="width: 20%;"/>
-</p>
+<div style="display: flex;">
+<img src="https://github.com/mhdmoh/redacted/blob/main/screenshots/shimmer.gif?raw=true"  style="max-width: 25%;"/>
+<img src="https://github.com/mhdmoh/redacted/blob/main/screenshots/glow.gif?raw=true"  style="max-width: 25%;"/>
+<img src="https://github.com/mhdmoh/redacted/blob/main/screenshots/static.gif?raw=true"  style="max-width: 25%;"/>
+</div>
 
 you can set the style like this:
 ```dart
@@ -41,3 +41,9 @@ ShoeWidget().redacted(
   ),
 )
 ```
+
+## Current Limitations
+The current widgets that are currently supported in the pacakge are:
+`Text` , `Column` , `Row` , `Stack` , `Container` , `Wrap` , `Center` , `SizedBox` , `Padding` , `Expanded` , `AspectRatio` , `InkWell` and `StatelessWidget`.
+
+More widgets will be added in the future.
