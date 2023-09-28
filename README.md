@@ -21,11 +21,11 @@ ShoeWidget()
 ## Styling
 There is three styles you can choose from:
 `ShimmerStyle`, `GlowStyle` and `StaticColorStyle`
-<div style="display: flex;">
-<img src="https://github.com/mhdmoh/redacted/blob/main/screenshots/shimmer.gif?raw=true"  style="max-width: 25%;"/>
-<img src="https://github.com/mhdmoh/redacted/blob/main/screenshots/glow.gif?raw=true"  style="max-width: 25%;"/>
-<img src="https://github.com/mhdmoh/redacted/blob/main/screenshots/static.gif?raw=true"  style="max-width: 25%;"/>
-</div>
+
+|  Shimmer |  Glow  | Static  |
+|----------|--------|---------|
+|<img src="https://github.com/mhdmoh/redacted/blob/main/screenshots/shimmer.gif?raw=true"/>|<img src="https://github.com/mhdmoh/redacted/blob/main/screenshots/glow.gif?raw=true"/>|<img src="https://github.com/mhdmoh/redacted/blob/main/screenshots/static.gif?raw=true"/>|
+
 
 you can set the style like this:
 ```dart
