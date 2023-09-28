@@ -14,3 +14,6 @@ Added README
 
 ## 0.0.5
 Added support for InkWell Widget.
+
+## 0.0.6
+Updated the README
