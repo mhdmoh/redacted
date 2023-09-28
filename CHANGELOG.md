@@ -23,3 +23,8 @@ Updated the README
 
 ## 0.0.8
 Updated the README
+
+## 0.0.9
+1- Added support for `Align` , `Positioned` and `Image` widgets.
+2- Added the ability to hide a widget insted of redacting it.
+3- Updated the README

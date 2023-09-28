@@ -41,7 +41,11 @@ extension RedactedText on Text {
               color: style?.color,
               child: Container(
                 margin: boxes.indexOf(box) != boxes.length
-                    ? const EdgeInsets.only(bottom: 4)
+                    ? EdgeInsets.only(
+                        bottom: boxes.isNotEmpty &&
+                                boxes.indexOf(box) - 1 != boxes.length
+                            ? 2
+                            : 0)
                     : null,
                 width: box.right,
                 height: box.bottom - box.top,
@@ -311,6 +315,53 @@ extension RedactedImageContainer on Container {
   }
 }
 
+extension RedactedPositioned on Positioned {
+  Positioned redact(BuildContext context,
+      {RedactedConfiguration? configuration}) {
+    return Positioned(
+      key: key,
+      bottom: bottom,
+      height: height,
+      left: left,
+      right: right,
+      top: top,
+      width: width,
+      child: child.redacted(
+          context: context, redact: true, configuration: configuration),
+    );
+  }
+}
+
+extension RedactedAlign on Align {
+  Align redact(BuildContext context, {RedactedConfiguration? configuration}) {
+    return Align(
+      alignment: alignment,
+      heightFactor: heightFactor,
+      key: key,
+      widthFactor: widthFactor,
+      child: child?.redacted(
+          context: context, redact: true, configuration: configuration),
+    );
+  }
+}
+
+extension RedactedImage on Image {
+  Widget redact({RedactedConfiguration? configuration}) {
+    return _MeasuredWidget(
+      style:
+          (configuration ?? RedactedConfiguration(style: ShimmerStyle())).style,
+      onSizeLoaded: (size) {
+        return Container(
+          padding: EdgeInsets.zero,
+          width: size.width,
+          height: size.height,
+        );
+      },
+      child: this,
+    );
+  }
+}
+
 class _RedactedFillWidget extends StatefulWidget {
   const _RedactedFillWidget({
     required this.child,
@@ -406,6 +457,43 @@ class __RedactedFillWidgetState extends State<_RedactedFillWidget> {
                 color: (widget.style as StaticColorStyle).color,
               ),
             ),
+    );
+  }
+}
+
+class _MeasuredWidget extends StatefulWidget {
+  const _MeasuredWidget({
+    required this.child,
+    required this.onSizeLoaded,
+    required this.style,
+  });
+
+  final Widget Function(Size size) onSizeLoaded;
+  final Widget child;
+  final RedactedStyle style;
+
+  @override
+  State<_MeasuredWidget> createState() => _MeasuredWidgetState();
+}
+
+class _MeasuredWidgetState extends State<_MeasuredWidget> {
+  Size? size;
+  Container? newChild;
+
+  @override
+  Widget build(BuildContext context) {
+    return MeasureSize(
+      onChange: (newSize) {
+        if (size == null) {
+          setState(() {
+            size = newSize;
+            newChild = widget.onSizeLoaded(newSize) as Container;
+          });
+        }
+      },
+      child: newChild == null
+          ? widget.child
+          : _RedactedFillWidget(style: widget.style, child: newChild!),
     );
   }
 }

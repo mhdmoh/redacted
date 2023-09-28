@@ -50,8 +50,15 @@ SomeWidget()
   .unredacted
 ```
 
+### Hide
+If you want to hide some widget insted of redacting it then you can do the following:
+```dart
+SomeWidget()
+  .hide
+```
+
 ## Current Limitations
 The widgets that are currently supported in this pacakge are:
-`Text` , `Column` , `Row` , `Stack` , `Container` , `Wrap` , `Center` , `SizedBox` , `Padding` , `Expanded` , `AspectRatio` , `InkWell` and `StatelessWidget`.
+`Text` , `Column` , `Row` , `Stack` , `Container` , `Align` , `Positioned` , `Wrap` , `Image` , `Center` , `SizedBox` , `Padding` , `Expanded` , `AspectRatio` , `InkWell` and `StatelessWidget`.
 
 More widgets will be added in the future.

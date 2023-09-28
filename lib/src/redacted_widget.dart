@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:redacted/src/radacted_extensions.dart';
 import 'package:redacted/src/redacted_configuration.dart';
+import 'package:redacted/src/redacted_hide_widget.dart';
 import 'package:redacted/src/unredacted_widget.dart';
 
 extension Redacted on Widget {
@@ -12,6 +13,9 @@ extension Redacted on Widget {
     RedactedConfiguration? configuration,
   }) {
     if (!redact) return this;
+    if (this is RedactedHideWidget) {
+      return Opacity(opacity: 0, child: (this as RedactedHideWidget).child);
+    }
     if (this is UnredactedWidget) return (this as UnredactedWidget).child;
     if (this is Text) {
       return (this as Text).redact(configuration: configuration);
@@ -24,6 +28,12 @@ extension Redacted on Widget {
     }
     if (this is Stack) {
       return (this as Stack).redact(context, configuration: configuration);
+    }
+    if (this is Align) {
+      return (this as Align).redact(context, configuration: configuration);
+    }
+    if (this is Positioned) {
+      return (this as Positioned).redact(context, configuration: configuration);
     }
     if (this is Wrap) {
       return (this as Wrap).redact(context, configuration: configuration);
@@ -44,6 +54,10 @@ extension Redacted on Widget {
       return (this as AspectRatio)
           .redact(context, configuration: configuration);
     }
+    if (this is Image) {
+      return (this as Image).redact(configuration: configuration);
+    }
+
     if (this is Container) {
       return (this as Container).redact(context, configuration: configuration);
     }

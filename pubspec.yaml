@@ -1,6 +1,6 @@
 name: redacted
 description: A package that automatically generate a loading widget from your own widget.
-version: 0.0.8
+version: 0.0.9
 homepage: https://github.com/mhdmoh/redacted
 
 environment:
