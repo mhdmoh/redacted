@@ -20,25 +20,14 @@ ShoeWidget()
 ```
 
 ## Styling
-There is three styles you can choose from:
-`ShimmerStyle`, `GlowStyle` and `StaticColorStyle`
+You can change the color and the duration of the animation by using `RedactedConfiguration`:
 
-|  Shimmer |  Glow  | Static  |
-|----------|--------|---------|
-|<img src="https://github.com/mhdmoh/redacted/blob/main/screenshots/shimmer.gif?raw=true"/>|<img src="https://github.com/mhdmoh/redacted/blob/main/screenshots/glow.gif?raw=true"/>|<img src="https://github.com/mhdmoh/redacted/blob/main/screenshots/static.gif?raw=true"/>|
-
-
-you can set the style like this:
 ```dart
 ShoeWidget().redacted(
   context: context,
   redact: true,
   configuration: RedactedConfiguration(
-    style: GlowStyle(
-      color: Colors.grey, //default
-      duration: const Duration(milliseconds: 800), //default
-      inheritColor: false, //default
-    ),
+    animationDuration = const Duration(milliseconds: 800), //default
   ),
 )
 ```

@@ -1,6 +1,6 @@
 name: redacted
 description: A package that automatically generate a loading widget from your own widget.
-version: 0.0.9
+version: 1.0.10
 homepage: https://github.com/mhdmoh/redacted
 
 environment:
@@ -11,7 +11,7 @@ dependencies:
   flutter:
     sdk: flutter
   measure_size: ^4.0.0
-  shimmer: ^3.0.0
+  flutter_svg:
 
 dev_dependencies:
   flutter_test:

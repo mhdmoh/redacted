@@ -17,11 +17,15 @@ extension Redacted on Widget {
       return Opacity(opacity: 0, child: (this as RedactedHideWidget).child);
     }
     if (this is UnredactedWidget) return (this as UnredactedWidget).child;
+
     if (this is Text) {
       return (this as Text).redact(configuration: configuration);
     }
     if (this is Column) {
       return (this as Column).redact(context, configuration: configuration);
+    }
+    if (this is Icon) {
+      return (this as Icon).redact();
     }
     if (this is Row) {
       return (this as Row).redact(context, configuration: configuration);

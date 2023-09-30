@@ -28,3 +28,10 @@ Updated the README
 1- Added support for `Align` , `Positioned` and `Image` widgets.
 2- Added the ability to hide a widget insted of redacting it.
 3- Updated the README
+
+## 1.0.10
+Major Update.
+1- Changed the way the packages works.
+2- Removed all styles and made the old `GlowStyle` the default one.
+3- Updated the README.
+4- Fixed some bugs.

@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:measure_size/measure_size.dart';
 import 'package:redacted/src/redacted_configuration.dart';
 import 'package:redacted/src/redacted_widget.dart';
-import 'package:redacted/src/redacyed_style.dart';
-import 'package:shimmer/shimmer.dart';
 
 extension RedactedText on Text {
   Widget redact({RedactedConfiguration? configuration}) {
@@ -11,11 +10,8 @@ extension RedactedText on Text {
       builder: (context, constraints) {
         var text = data ?? "";
         if (text.isEmpty) {
-          if ((configuration ?? RedactedConfiguration(style: ShimmerStyle()))
-              .autoFillTexts) {
-            text =
-                (configuration ?? RedactedConfiguration(style: ShimmerStyle()))
-                    .autoFillText;
+          if ((configuration ?? RedactedConfiguration()).autoFillTexts) {
+            text = (configuration ?? RedactedConfiguration()).autoFillText;
           } else {
             return const SizedBox.shrink();
           }
@@ -35,10 +31,7 @@ extension RedactedText on Text {
         for (var box in boxes) {
           children.add(
             _RedactedFillWidget(
-              style: (configuration ??
-                      RedactedConfiguration(style: ShimmerStyle()))
-                  .style,
-              color: style?.color,
+              configuration: configuration ?? RedactedConfiguration(),
               child: Container(
                 margin: boxes.indexOf(box) != boxes.length
                     ? EdgeInsets.only(
@@ -232,7 +225,97 @@ extension RedactedAspectRatio on AspectRatio {
   }
 }
 
-extension RedactedInkWll on InkWell {
+extension RedactedIcon on Icon {
+  Widget redact() {
+    return Opacity(opacity: 0, child: this);
+  }
+}
+
+extension RedactedImageContainer on Container {
+  Widget redact(BuildContext context, {RedactedConfiguration? configuration}) {
+    if (child == null) return this;
+    return Padding(
+      padding: margin ?? EdgeInsets.zero,
+      child: _RedactedFillWidget(
+        configuration: configuration ?? RedactedConfiguration(),
+        child: Container(
+          decoration: (decoration is BoxDecoration)
+              ? BoxDecoration(
+                  borderRadius: (decoration as BoxDecoration).borderRadius,
+                  shape: (decoration as BoxDecoration).shape,
+                )
+              : decoration,
+          clipBehavior: clipBehavior,
+          alignment: alignment,
+          constraints: constraints,
+          foregroundDecoration: foregroundDecoration,
+          key: key,
+          padding: padding,
+          transform: transform,
+          transformAlignment: transformAlignment,
+          child: child is Icon ||
+                  child is Image ||
+                  child is SvgPicture ||
+                  child is Text
+              ? null
+              : child!.redacted(
+                  context: context,
+                  redact: true,
+                  configuration: configuration,
+                ),
+        ),
+      ),
+    );
+  }
+}
+
+extension RedactedAlig on Align {
+  Align redact(BuildContext context, {RedactedConfiguration? configuration}) {
+    return Align(
+      alignment: alignment,
+      heightFactor: heightFactor,
+      key: key,
+      widthFactor: widthFactor,
+      child: child?.redacted(
+          context: context, redact: true, configuration: configuration),
+    );
+  }
+}
+
+extension RedactedPositioned on Positioned {
+  Positioned redact(BuildContext context,
+      {RedactedConfiguration? configuration}) {
+    return Positioned(
+      key: key,
+      bottom: bottom,
+      height: height,
+      left: left,
+      right: right,
+      top: top,
+      width: width,
+      child: child.redacted(
+          context: context, redact: true, configuration: configuration),
+    );
+  }
+}
+
+extension RedactedImage on Image {
+  Widget redact({RedactedConfiguration? configuration}) {
+    return MeasuredWidget(
+      configuration: configuration ?? RedactedConfiguration(),
+      onSizeLoaded: (size) {
+        return Container(
+          padding: EdgeInsets.zero,
+          width: size.width,
+          height: size.height,
+        );
+      },
+      child: this,
+    );
+  }
+}
+
+extension RedactedInkWell on InkWell {
   InkWell redact(BuildContext context, {RedactedConfiguration? configuration}) {
     return InkWell(
       autofocus: autofocus,
@@ -271,107 +354,13 @@ extension RedactedInkWll on InkWell {
   }
 }
 
-extension RedactedImageContainer on Container {
-  Widget redact(BuildContext context, {RedactedConfiguration? configuration}) {
-    if (child == null) return this;
-    if (child != null && child.runtimeType != Image) {
-      return Container(
-        decoration: decoration,
-        clipBehavior: clipBehavior,
-        margin: margin,
-        alignment: alignment,
-        constraints: constraints,
-        foregroundDecoration: foregroundDecoration,
-        key: key,
-        padding: padding,
-        transform: transform,
-        transformAlignment: transformAlignment,
-        child: child!.redacted(
-          context: context,
-          redact: true,
-          configuration: configuration,
-        ),
-      );
-    }
-    return _RedactedFillWidget(
-      style:
-          (configuration ?? RedactedConfiguration(style: ShimmerStyle())).style,
-      color: color ??
-          ((decoration is BoxDecoration)
-              ? (decoration as BoxDecoration).color
-              : null),
-      child: Container(
-        margin: margin,
-        alignment: alignment,
-        constraints: constraints,
-        foregroundDecoration: foregroundDecoration,
-        key: key,
-        padding: padding,
-        transform: transform,
-        transformAlignment: transformAlignment,
-        // child: child,
-      ),
-    );
-  }
-}
-
-extension RedactedPositioned on Positioned {
-  Positioned redact(BuildContext context,
-      {RedactedConfiguration? configuration}) {
-    return Positioned(
-      key: key,
-      bottom: bottom,
-      height: height,
-      left: left,
-      right: right,
-      top: top,
-      width: width,
-      child: child.redacted(
-          context: context, redact: true, configuration: configuration),
-    );
-  }
-}
-
-extension RedactedAlign on Align {
-  Align redact(BuildContext context, {RedactedConfiguration? configuration}) {
-    return Align(
-      alignment: alignment,
-      heightFactor: heightFactor,
-      key: key,
-      widthFactor: widthFactor,
-      child: child?.redacted(
-          context: context, redact: true, configuration: configuration),
-    );
-  }
-}
-
-extension RedactedImage on Image {
-  Widget redact({RedactedConfiguration? configuration}) {
-    return _MeasuredWidget(
-      style:
-          (configuration ?? RedactedConfiguration(style: ShimmerStyle())).style,
-      onSizeLoaded: (size) {
-        return Container(
-          padding: EdgeInsets.zero,
-          width: size.width,
-          height: size.height,
-        );
-      },
-      child: this,
-    );
-  }
-}
-
 class _RedactedFillWidget extends StatefulWidget {
   const _RedactedFillWidget({
     required this.child,
-    required this.style,
-    this.color,
+    required this.configuration,
   });
   final Container child;
-  final RedactedStyle style;
-  final Color? color;
-
+  final RedactedConfiguration configuration;
   @override
   State<_RedactedFillWidget> createState() => __RedactedFillWidgetState();
 }
@@ -379,53 +368,29 @@ class _RedactedFillWidget extends StatefulWidget {
 class __RedactedFillWidgetState extends State<_RedactedFillWidget> {
   @override
   void initState() {
-    if (widget.style is GlowStyle) {
-      Future.delayed((widget.style as GlowStyle).duration, () {
-        setState(() {
-          colored = !colored;
-        });
+    Future.delayed(widget.configuration.animationDuration, () {
+      setState(() {
+        colored = !colored;
       });
-    }
+    });
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    if (widget.style is GlowStyle) {
-      return _buildGlowWidget();
-    } else if (widget.style is ShimmerStyle) {
-      return _buildShimmerWidget();
-    } else {
-      return _buildStaticColor();
-    }
-  }
-
-  Widget _buildShimmerWidget() {
-    return Shimmer.fromColors(
-      baseColor: (widget.style as ShimmerStyle).baseColor,
-      highlightColor: (widget.style as ShimmerStyle).highlightColor,
-      child: Container(
-        margin: widget.child.margin,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(16),
-          color: Colors.white,
-        ),
-        child: widget.child,
-      ),
-    );
+    return _buildGlowWidget();
   }
 
   bool colored = false;
   Widget _buildGlowWidget() {
-    var color = (widget.style as GlowStyle).inheritColor
-        ? widget.color ?? (widget.style as GlowStyle).color
-        : (widget.style as GlowStyle).color;
+    var color = widget.configuration.redactedColor;
+
     return AnimatedContainer(
-      duration: (widget.style as GlowStyle).duration,
+      duration: widget.configuration.animationDuration,
       margin: widget.child.margin,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(16),
-        color: colored ? color.withAlpha(50) : color.withAlpha(200),
+        color: colored ? color!.withAlpha(50) : color!.withAlpha(200),
       ),
       child: widget.child,
       onEnd: () {
@@ -435,48 +400,25 @@ class __RedactedFillWidgetState extends State<_RedactedFillWidget> {
       },
     );
   }
-
-  Size? size;
-  Widget _buildStaticColor() {
-    return MeasureSize(
-      onChange: (p0) {
-        if (size == null) {
-          setState(() {
-            size = p0;
-          });
-        }
-      },
-      child: size == null
-          ? widget.child
-          : Container(
-              margin: widget.child.margin,
-              width: size!.width,
-              height: size!.height,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(16),
-                color: (widget.style as StaticColorStyle).color,
-              ),
-            ),
-    );
-  }
 }
 
-class _MeasuredWidget extends StatefulWidget {
-  const _MeasuredWidget({
+class MeasuredWidget extends StatefulWidget {
+  const MeasuredWidget({
+    super.key,
     required this.child,
     required this.onSizeLoaded,
-    required this.style,
+    required this.configuration,
   });
 
   final Widget Function(Size size) onSizeLoaded;
   final Widget child;
-  final RedactedStyle style;
+  final RedactedConfiguration configuration;
 
   @override
-  State<_MeasuredWidget> createState() => _MeasuredWidgetState();
+  State<MeasuredWidget> createState() => _MeasuredWidgetState();
 }
 
-class _MeasuredWidgetState extends State<_MeasuredWidget> {
+class _MeasuredWidgetState extends State<MeasuredWidget> {
   Size? size;
   Container? newChild;
 
@@ -484,7 +426,7 @@ class _MeasuredWidgetState extends State<_MeasuredWidget> {
   Widget build(BuildContext context) {
     return MeasureSize(
       onChange: (newSize) {
-        if (size == null) {
+        if (size == null && newSize != Size.zero) {
           setState(() {
             size = newSize;
             newChild = widget.onSizeLoaded(newSize) as Container;
@@ -492,8 +434,9 @@ class _MeasuredWidgetState extends State<_MeasuredWidget> {
         }
       },
       child: newChild == null
-          ? widget.child
-          : _RedactedFillWidget(style: widget.style, child: newChild!),
+          ? Opacity(opacity: 0, child: widget.child)
+          : _RedactedFillWidget(
+              configuration: widget.configuration, child: newChild!),
     );
   }
 }
