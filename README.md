@@ -27,7 +27,7 @@ ShoeWidget().redacted(
   context: context,
   redact: true,
   configuration: RedactedConfiguration(
-    animationDuration = const Duration(milliseconds: 800), //default
+    animationDuration : const Duration(milliseconds: 800), //default
   ),
 )
 ```
@@ -40,7 +40,7 @@ SomeWidget()
 ```
 
 ### Hide
-If you want to hide some widget insted of redacting it then you can do the following:
+If you want to hide some widget instead of redacting it then you can do the following:
 ```dart
 SomeWidget()
   .hide
