@@ -47,7 +47,7 @@ SomeWidget()
 ```
 
 ## Current Limitations
-The widgets that are currently supported in this pacakge are:
+The widgets that are currently supported in this package are:
 `Text` , `Column` , `Row` , `Stack` , `Container` , `Align` , `Positioned` , `Wrap` , `Image` , `Center` , `SizedBox` , `Padding` , `Expanded` , `AspectRatio` , `InkWell` and `StatelessWidget`.
 
 More widgets will be added in the future.
