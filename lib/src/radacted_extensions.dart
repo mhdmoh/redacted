@@ -1,17 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:measure_size/measure_size.dart';
-import 'package:redacted/src/redacted_configuration.dart';
-import 'package:redacted/src/redacted_widget.dart';
+import 'package:shimmer/shimmer.dart';
+
+import '../redacted.dart';
 
 extension RedactedText on Text {
-  Widget redact({RedactedConfiguration? configuration}) {
+  Widget redact(
+      {RedactedConfiguration configuration =
+          const GlowingRedactedConfiguration()}) {
     return LayoutBuilder(
       builder: (context, constraints) {
         var text = data ?? "";
         if (text.isEmpty) {
-          if ((configuration ?? RedactedConfiguration()).autoFillTexts) {
-            text = (configuration ?? RedactedConfiguration()).autoFillText;
+          if (configuration.autoFillTexts) {
+            text = configuration.autoFillText;
           } else {
             return const SizedBox.shrink();
           }
@@ -31,7 +34,7 @@ extension RedactedText on Text {
         for (var box in boxes) {
           children.add(
             _RedactedFillWidget(
-              configuration: configuration ?? RedactedConfiguration(),
+              configuration: configuration,
               child: Container(
                 margin: boxes.indexOf(box) != boxes.length
                     ? EdgeInsets.only(
@@ -57,7 +60,9 @@ extension RedactedText on Text {
 }
 
 extension RedactedColumn on Column {
-  Column redact(BuildContext context, {RedactedConfiguration? configuration}) {
+  Column redact(BuildContext context,
+      {RedactedConfiguration configuration =
+          const GlowingRedactedConfiguration()}) {
     List<Widget> newChildren = [];
     for (var child in children) {
       newChildren.add(child.redacted(
@@ -81,7 +86,9 @@ extension RedactedColumn on Column {
 }
 
 extension RedactedRow on Row {
-  Row redact(BuildContext context, {RedactedConfiguration? configuration}) {
+  Row redact(BuildContext context,
+      {RedactedConfiguration configuration =
+          const GlowingRedactedConfiguration()}) {
     List<Widget> newChildren = [];
     for (var child in children) {
       newChildren.add(child.redacted(
@@ -105,7 +112,9 @@ extension RedactedRow on Row {
 }
 
 extension RedactedStack on Stack {
-  Stack redact(BuildContext context, {RedactedConfiguration? configuration}) {
+  Stack redact(BuildContext context,
+      {RedactedConfiguration configuration =
+          const GlowingRedactedConfiguration()}) {
     List<Widget> newChildren = [];
     for (var child in children) {
       newChildren.add(child.redacted(
@@ -127,7 +136,9 @@ extension RedactedStack on Stack {
 }
 
 extension RedactedWrap on Wrap {
-  Wrap redact(BuildContext context, {RedactedConfiguration? configuration}) {
+  Wrap redact(BuildContext context,
+      {RedactedConfiguration configuration =
+          const GlowingRedactedConfiguration()}) {
     List<Widget> newChildren = [];
     for (var child in children) {
       newChildren.add(child.redacted(
@@ -154,7 +165,9 @@ extension RedactedWrap on Wrap {
 }
 
 extension RedactedCenter on Center {
-  Center redact(BuildContext context, {RedactedConfiguration? configuration}) {
+  Center redact(BuildContext context,
+      {RedactedConfiguration configuration =
+          const GlowingRedactedConfiguration()}) {
     return Center(
       heightFactor: heightFactor,
       key: key,
@@ -170,7 +183,8 @@ extension RedactedCenter on Center {
 
 extension RedactedSizedbox on SizedBox {
   SizedBox redact(BuildContext context,
-      {RedactedConfiguration? configuration}) {
+      {RedactedConfiguration configuration =
+          const GlowingRedactedConfiguration()}) {
     return SizedBox(
       height: height,
       key: key,
@@ -185,7 +199,9 @@ extension RedactedSizedbox on SizedBox {
 }
 
 extension RedactedPadding on Padding {
-  Padding redact(BuildContext context, {RedactedConfiguration? configuration}) {
+  Padding redact(BuildContext context,
+      {RedactedConfiguration configuration =
+          const GlowingRedactedConfiguration()}) {
     return Padding(
       padding: padding,
       key: key,
@@ -200,7 +216,8 @@ extension RedactedPadding on Padding {
 
 extension RedactedExpanded on Expanded {
   Expanded redact(BuildContext context,
-      {RedactedConfiguration? configuration}) {
+      {RedactedConfiguration configuration =
+          const GlowingRedactedConfiguration()}) {
     return Expanded(
       flex: flex,
       key: key,
@@ -215,7 +232,8 @@ extension RedactedExpanded on Expanded {
 
 extension RedactedAspectRatio on AspectRatio {
   AspectRatio redact(BuildContext context,
-      {RedactedConfiguration? configuration}) {
+      {RedactedConfiguration configuration =
+          const GlowingRedactedConfiguration()}) {
     return AspectRatio(
       key: key,
       aspectRatio: aspectRatio,
@@ -232,12 +250,14 @@ extension RedactedIcon on Icon {
 }
 
 extension RedactedImageContainer on Container {
-  Widget redact(BuildContext context, {RedactedConfiguration? configuration}) {
+  Widget redact(BuildContext context,
+      {RedactedConfiguration configuration =
+          const GlowingRedactedConfiguration()}) {
     if (child == null) return this;
     return Padding(
       padding: margin ?? EdgeInsets.zero,
       child: _RedactedFillWidget(
-        configuration: configuration ?? RedactedConfiguration(),
+        configuration: configuration,
         child: Container(
           decoration: (decoration is BoxDecoration)
               ? BoxDecoration(
@@ -270,7 +290,9 @@ extension RedactedImageContainer on Container {
 }
 
 extension RedactedAlig on Align {
-  Align redact(BuildContext context, {RedactedConfiguration? configuration}) {
+  Align redact(BuildContext context,
+      {RedactedConfiguration configuration =
+          const GlowingRedactedConfiguration()}) {
     return Align(
       alignment: alignment,
       heightFactor: heightFactor,
@@ -284,7 +306,8 @@ extension RedactedAlig on Align {
 
 extension RedactedPositioned on Positioned {
   Positioned redact(BuildContext context,
-      {RedactedConfiguration? configuration}) {
+      {RedactedConfiguration configuration =
+          const GlowingRedactedConfiguration()}) {
     return Positioned(
       key: key,
       bottom: bottom,
@@ -300,9 +323,11 @@ extension RedactedPositioned on Positioned {
 }
 
 extension RedactedImage on Image {
-  Widget redact({RedactedConfiguration? configuration}) {
+  Widget redact(
+      {RedactedConfiguration configuration =
+          const GlowingRedactedConfiguration()}) {
     return MeasuredWidget(
-      configuration: configuration ?? RedactedConfiguration(),
+      configuration: configuration,
       onSizeLoaded: (size) {
         return Container(
           padding: EdgeInsets.zero,
@@ -316,7 +341,9 @@ extension RedactedImage on Image {
 }
 
 extension RedactedInkWell on InkWell {
-  InkWell redact(BuildContext context, {RedactedConfiguration? configuration}) {
+  InkWell redact(BuildContext context,
+      {RedactedConfiguration configuration =
+          const GlowingRedactedConfiguration()}) {
     return InkWell(
       autofocus: autofocus,
       borderRadius: borderRadius,
@@ -367,38 +394,21 @@ class _RedactedFillWidget extends StatefulWidget {
 
 class __RedactedFillWidgetState extends State<_RedactedFillWidget> {
   @override
-  void initState() {
-    Future.delayed(widget.configuration.animationDuration, () {
-      setState(() {
-        colored = !colored;
-      });
-    });
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return _buildGlowWidget();
-  }
-
-  bool colored = false;
-  Widget _buildGlowWidget() {
-    var color = widget.configuration.redactedColor;
-
-    return AnimatedContainer(
-      duration: widget.configuration.animationDuration,
-      margin: widget.child.margin,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(16),
-        color: colored ? color!.withAlpha(50) : color!.withAlpha(200),
-      ),
-      child: widget.child,
-      onEnd: () {
-        setState(() {
-          colored = !colored;
-        });
-      },
-    );
+    switch (widget.configuration.runtimeType) {
+      case GlowingRedactedConfiguration:
+        return GlowingWidget(
+          configuration: widget.configuration as GlowingRedactedConfiguration,
+          child: widget.child,
+        );
+      case ShimmerRedactedConfiguration:
+        return ShimmerWidget(
+          configuration: widget.configuration as ShimmerRedactedConfiguration,
+          child: widget.child,
+        );
+      default:
+        throw UnSupportedConfiguration();
+    }
   }
 }
 
@@ -439,4 +449,80 @@ class _MeasuredWidgetState extends State<MeasuredWidget> {
               configuration: widget.configuration, child: newChild!),
     );
   }
+}
+
+class GlowingWidget extends StatefulWidget {
+  const GlowingWidget(
+      {super.key, required this.configuration, required this.child});
+  final Container child;
+  final GlowingRedactedConfiguration configuration;
+
+  @override
+  State<GlowingWidget> createState() => _GlowingWidgetState();
+}
+
+class _GlowingWidgetState extends State<GlowingWidget> {
+  bool colored = false;
+
+  @override
+  void initState() {
+    Future.delayed(widget.configuration.animationDuration, () {
+      setState(() {
+        colored = !colored;
+      });
+    });
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    Color color = widget.configuration.glowingColor;
+    return AnimatedContainer(
+      duration: widget.configuration.animationDuration,
+      margin: widget.child.margin,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(16),
+        color: colored ? color.withAlpha(50) : color.withAlpha(200),
+      ),
+      child: widget.child,
+      onEnd: () {
+        setState(() {
+          colored = !colored;
+        });
+      },
+    );
+  }
+}
+
+class ShimmerWidget extends StatefulWidget {
+  const ShimmerWidget(
+      {super.key, required this.child, required this.configuration});
+  final Container child;
+  final ShimmerRedactedConfiguration configuration;
+  @override
+  State<ShimmerWidget> createState() => _ShimmerWidgetState();
+}
+
+class _ShimmerWidgetState extends State<ShimmerWidget> {
+  @override
+  Widget build(BuildContext context) {
+    return Shimmer.fromColors(
+        baseColor: widget.configuration.baseColor,
+        highlightColor: widget.configuration.highlightColor,
+        period: widget.configuration.animationDuration,
+        child: Container(
+            margin: widget.child.margin,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(16),
+              color: widget.configuration.baseColor,
+            ),
+            child: widget.child));
+  }
+}
+
+class UnSupportedConfiguration implements Exception {
+  final String message;
+
+  UnSupportedConfiguration(
+      {this.message = "Unsupported Redacted Configuration"});
 }
