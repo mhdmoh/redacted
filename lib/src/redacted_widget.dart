@@ -1,16 +1,12 @@
-// ignore_for_file: invalid_use_of_protected_member
-
 import 'package:flutter/material.dart';
-import 'package:redacted/src/radacted_extensions.dart';
-import 'package:redacted/src/redacted_configuration.dart';
-import 'package:redacted/src/redacted_hide_widget.dart';
-import 'package:redacted/src/unredacted_widget.dart';
+
+import '../redacted.dart';
 
 extension Redacted on Widget {
   Widget redacted({
     required BuildContext context,
     required bool redact,
-    RedactedConfiguration? configuration,
+    RedactedConfiguration configuration = const GlowingRedactedConfiguration(),
   }) {
     if (!redact) return this;
     if (this is RedactedHideWidget) {
@@ -69,6 +65,7 @@ extension Redacted on Widget {
       return (this as InkWell).redact(context, configuration: configuration);
     }
     if (this is StatelessWidget) {
+      // ignore: invalid_use_of_protected_member
       return (this as StatelessWidget).build(context).redacted(
           context: context, redact: redact, configuration: configuration);
     }
