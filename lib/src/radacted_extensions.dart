@@ -466,7 +466,7 @@ class _GlowingWidgetState extends State<GlowingWidget> {
 
   @override
   void initState() {
-    Future.delayed(widget.configuration.animationDuration, () {
+    Future.delayed(widget.configuration.duration, () {
       setState(() {
         colored = !colored;
       });
@@ -478,7 +478,7 @@ class _GlowingWidgetState extends State<GlowingWidget> {
   Widget build(BuildContext context) {
     Color color = widget.configuration.glowingColor;
     return AnimatedContainer(
-      duration: widget.configuration.animationDuration,
+      duration: widget.configuration.duration,
       margin: widget.child.margin,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(16),
@@ -509,7 +509,7 @@ class _ShimmerWidgetState extends State<ShimmerWidget> {
     return Shimmer.fromColors(
         baseColor: widget.configuration.baseColor,
         highlightColor: widget.configuration.highlightColor,
-        period: widget.configuration.animationDuration,
+        period: widget.configuration.duration,
         child: Container(
             margin: widget.child.margin,
             decoration: BoxDecoration(
