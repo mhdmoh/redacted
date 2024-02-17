@@ -389,7 +389,7 @@ class __RedactedFillWidgetState extends State<_RedactedFillWidget> {
       duration: widget.configuration.animationDuration,
       margin: widget.child.margin,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: (widget.child.decoration is BoxDecoration) ? (widget.child.decoration as BoxDecoration).borderRadius : widget.configuration.defaultBorderRadius ??BorderRadius.circular(16),
         color: colored ? color!.withAlpha(50) : color!.withAlpha(200),
       ),
       child: widget.child,
