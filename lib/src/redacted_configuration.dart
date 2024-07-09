@@ -11,5 +11,6 @@ class RedactedConfiguration {
         "This is a place holder text to fill the space for redaction",
     this.autoFillTexts = true,
     this.animationDuration = const Duration(milliseconds: 800),
+      this.redactedColor,
   });
 }
