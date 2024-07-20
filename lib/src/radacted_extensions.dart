@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:measure_size/measure_size.dart';
@@ -366,14 +368,27 @@ class _RedactedFillWidget extends StatefulWidget {
 }
 
 class __RedactedFillWidgetState extends State<_RedactedFillWidget> {
+  Timer? _timer;
+
   @override
   void initState() {
-    Future.delayed(widget.configuration.animationDuration, () {
-      setState(() {
-        colored = !colored;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _timer = Timer(widget.configuration.animationDuration, () {
+        if (mounted) {
+          setState(() {
+            colored = !colored;
+          });
+        }
       });
     });
     super.initState();
+  }
+
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    super.dispose();
   }
 
   @override
