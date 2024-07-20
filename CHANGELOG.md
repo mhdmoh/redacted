@@ -37,3 +37,10 @@
 ## 1.0.11
 * Fixed some issues in the README
 * Changed the LICENCE to MPL 2.0
+
+## 1.0.12
+* Added support for custom border radius for the redacted widgets [Issue #7]
+* Added support for custom redacted color 
+* Fixed a state management issue when using ```setState``` [Issue #5]
+* Added example project
+* Fixed an issue where a `Container` wont be redacted if it has no children [Issue #8]

@@ -8,7 +8,8 @@ class RedactedConfiguration {
   BorderRadius? defaultBorderRadius;
 
   RedactedConfiguration({
-    this.autoFillText = "This is a place holder text to fill the space for redaction",
+    this.autoFillText =
+        "This is a place holder text to fill the space for redaction",
     this.autoFillTexts = true,
     this.animationDuration = const Duration(milliseconds: 800),
     this.defaultBorderRadius,
