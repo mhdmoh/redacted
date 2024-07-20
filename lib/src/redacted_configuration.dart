@@ -12,5 +12,6 @@ class RedactedConfiguration {
     this.autoFillTexts = true,
     this.animationDuration = const Duration(milliseconds: 800),
     this.defaultBorderRadius,
+      this.redactedColor,
   });
 }
