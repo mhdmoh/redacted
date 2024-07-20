@@ -235,7 +235,6 @@ extension RedactedIcon on Icon {
 
 extension RedactedImageContainer on Container {
   Widget redact(BuildContext context, {RedactedConfiguration? configuration}) {
-    if (child == null) return this;
     return Padding(
       padding: margin ?? EdgeInsets.zero,
       child: _RedactedFillWidget(
@@ -255,15 +254,24 @@ extension RedactedImageContainer on Container {
           padding: padding,
           transform: transform,
           transformAlignment: transformAlignment,
-          child: child is Icon ||
-                  child is Image ||
-                  child is SvgPicture ||
-                  child is Text
-              ? null
-              : child!.redacted(
-                  context: context,
-                  redact: true,
-                  configuration: configuration,
+          child: child != null
+              ? (child is Icon || child is Image || child is SvgPicture || child is Text
+                  ? null
+                  : child!.redacted(
+                      context: context,
+                      redact: true,
+                      configuration: configuration,
+                    ))
+              : MeasuredWidget(
+                  configuration: configuration ?? RedactedConfiguration(),
+                  onSizeLoaded: (size) {
+                    return Container(
+                      padding: EdgeInsets.zero,
+                      width: size.width,
+                      height: size.height,
+                    );
+                  },
+                  child: this,
                 ),
         ),
       ),
