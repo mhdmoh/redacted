@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class RedactedConfiguration {
   bool autoFillTexts;
   String autoFillText;
-  Color? redactedColor = Colors.grey.shade400.withAlpha(100);
+  Color? redactedColor;
   Duration animationDuration;
   BorderRadius? defaultBorderRadius;
 
@@ -12,6 +12,6 @@ class RedactedConfiguration {
     this.autoFillTexts = true,
     this.animationDuration = const Duration(milliseconds: 800),
     this.defaultBorderRadius,
-      this.redactedColor,
+    this.redactedColor,
   });
 }

@@ -398,14 +398,14 @@ class __RedactedFillWidgetState extends State<_RedactedFillWidget> {
 
   bool colored = false;
   Widget _buildGlowWidget() {
-    var color = widget.configuration.redactedColor;
+    var color = widget.configuration.redactedColor ?? Colors.grey.shade400.withAlpha(100);
 
     return AnimatedContainer(
       duration: widget.configuration.animationDuration,
       margin: widget.child.margin,
       decoration: BoxDecoration(
-        borderRadius: (widget.child.decoration is BoxDecoration) ? (widget.child.decoration as BoxDecoration).borderRadius : widget.configuration.defaultBorderRadius ??BorderRadius.circular(16),
-        color: colored ? color!.withAlpha(50) : color!.withAlpha(200),
+        borderRadius: (widget.child.decoration is BoxDecoration) ? (widget.child.decoration as BoxDecoration).borderRadius : widget.configuration.defaultBorderRadius ?? BorderRadius.circular(16),
+        color: colored ? color.withAlpha(50) : color.withAlpha(200),
       ),
       child: widget.child,
       onEnd: () {
